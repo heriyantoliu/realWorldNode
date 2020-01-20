@@ -1,0 +1,41 @@
+{
+	"name": "RealWorldNode",
+	"version": "1.0.0",
+	"description": "Real World Backend NodeJS",
+	"main": "app.js",
+	"scripts": {
+		"mongo:start": "docker run --name realworld-mongo -p 27017:27017 mongo & sleep 5",
+		"start": "node ./app.js",
+		"dev": "nodemon ./app.js",
+		"test": "newman run ./test/api-tests.postman.json -e ./test/env-api-tests.postman.json",
+		"stop": "lsof -ti :3000 | xargs kill",
+		"mongo:stop": "docker stop realworld-mongo && docker rm realworld-mongo"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"dependencies": {
+		"body-parser": "^1.19.0",
+		"cors": "^2.8.5",
+		"ejs": "^3.0.1",
+		"errorhandler": "^1.5.1",
+		"express": "^4.17.1",
+		"express-jwt": "^5.3.1",
+		"express-session": "^1.17.0",
+		"jsonwebtoken": "^8.5.1",
+		"method-override": "^3.0.0",
+		"methods": "^1.1.2",
+		"mongoose": "^5.8.9",
+		"mongoose-unique-validator": "^2.0.3",
+		"morgan": "^1.9.1",
+		"passport": "^0.4.1",
+		"passport-local": "^1.0.0",
+		"request": "^2.88.0",
+		"slug": "^2.1.0",
+		"underscore": "^1.9.2"
+	},
+	"devDependencies": {
+		"newman": "^4.5.7",
+		"nodemon": "^2.0.2"
+	}
+}
