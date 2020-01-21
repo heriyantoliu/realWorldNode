@@ -20,21 +20,21 @@ var ArticleSchema = new mongoose.Schema(
 
 ArticleSchema.plugin(uniqueValidator, { message: 'is already taken' });
 
-ArticleSchema.pre('validate', next => {
+ArticleSchema.pre('validate', function(next) {
 	if (!this.slug) {
 		this.slugify();
 	}
 	next();
 });
 
-ArticleSchema.methods.slugify = () => {
+ArticleSchema.methods.slugify = function() {
 	this.slug =
 		slug(this.title) +
 		'-' +
 		((Math.random() * Math.pow(36, 6)) | 0).toString(36);
 };
 
-ArticleSchema.methods.updateFavoriteCount = () => {
+ArticleSchema.methods.updateFavoriteCount = function() {
 	var article = this;
 
 	return User.count({ favorites: { $in: [article._id] } }).then(count => {
@@ -43,7 +43,7 @@ ArticleSchema.methods.updateFavoriteCount = () => {
 	});
 };
 
-ArticleSchema.methods.toJSONFor = user => {
+ArticleSchema.methods.toJSONFor = function(user) {
 	return {
 		slug: this.slug,
 		title: this.title,

@@ -34,21 +34,21 @@ var UserSchema = new mongoose.Schema(
 
 UserSchema.plugin(uniqueValidator, { message: 'is already taken.' });
 
-UserSchema.methods.validPassword = password => {
+UserSchema.methods.validPassword = function(password) {
 	var hash = crypto
 		.pbkdf2Sync(password, this.salt, 10000, 512, 'sha512')
 		.toString('hex');
 	return this.hash === hash;
 };
 
-UserSchema.methods.setPassword = password => {
+UserSchema.methods.setPassword = function(password) {
 	this.salt = crypto.randomBytes(16).toString('hex');
 	this.hash = crypto
 		.pbkdf2Sync(password, this.salt, 10000, 512, 'sha512')
 		.toString('hex');
 };
 
-UserSchema.methods.generateJWT = () => {
+UserSchema.methods.generateJWT = function() {
 	var today = new Date();
 	var exp = new Date(today);
 	exp.setDate(today.getDate() + 360);
@@ -63,7 +63,7 @@ UserSchema.methods.generateJWT = () => {
 	);
 };
 
-UserSchema.methods.toAuthJSON = () => {
+UserSchema.methods.toAuthJSON = function() {
 	return {
 		username: this.username,
 		email: this.email,
@@ -73,7 +73,7 @@ UserSchema.methods.toAuthJSON = () => {
 	};
 };
 
-UserSchema.methods.toProfileJSONFor = user => {
+UserSchema.methods.toProfileJSONFor = function(user) {
 	return {
 		username: this.username,
 		bio: this.bio,
@@ -83,7 +83,7 @@ UserSchema.methods.toProfileJSONFor = user => {
 	};
 };
 
-UserSchema.methods.favorite = id => {
+UserSchema.methods.favorite = function(id) {
 	if (this.favorites.indexOf(id) === -1) {
 		this.favorites.push(id);
 	}
@@ -91,32 +91,32 @@ UserSchema.methods.favorite = id => {
 	return this.save();
 };
 
-UserSchema.methods.unfavorite = id => {
+UserSchema.methods.unfavorite = function(id) {
 	this.favorites.remove(id);
 	return this.save();
 };
 
-UserSchema.methods.isFavorite = id => {
+UserSchema.methods.isFavorite = function(id) {
 	return this.favorites.some(favoriteId => {
 		return favoriteId.toString() === id.toString();
 	});
 };
 
-UserSchema.methods.follow = id => {
+UserSchema.methods.follow = function(id) {
 	if (this.following.indexOf(id) === -1) {
 		this.following.push(id);
 	}
 	return this.save();
 };
 
-UserSchema.methods.unfollow = id => {
+UserSchema.methods.unfollow = function(id) {
 	this.following.remove(id);
 	return this.save();
 };
 
-UserSchema.methods.isFollowing = id => {
+UserSchema.methods.isFollowing = function(id) {
 	return this.following.some(followId => {
-		return followId.tostring() === id.toString();
+		return followId.toString() === id.toString();
 	});
 };
 

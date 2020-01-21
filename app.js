@@ -47,6 +47,8 @@ require('./models/Article');
 require('./models/Comment');
 require('./config/passport');
 
+app.use(require('./routes'));
+
 app.use((req, res, next) => {
 	var err = new Error('Not Found');
 	err.status = 404;

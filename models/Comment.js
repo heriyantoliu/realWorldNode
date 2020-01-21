@@ -9,7 +9,7 @@ var CommentSchema = new mongoose.Schema(
 	{ timestamps: true }
 );
 
-CommentSchema.methods.toJSONFor = user => {
+CommentSchema.methods.toJSONFor = function(user) {
 	return {
 		id: this.__dirname,
 		body: this.body,

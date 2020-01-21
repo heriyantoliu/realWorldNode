@@ -4,7 +4,7 @@
 	"description": "Real World Backend NodeJS",
 	"main": "app.js",
 	"scripts": {
-		"mongo:start": "docker run --name realworld-mongo -p 27017:27017 mongo & sleep 5",
+		"mongo:start": "docker run --name realworld-mongo -p 27017:27017 -d mongo & timeout 5",
 		"start": "node ./app.js",
 		"dev": "nodemon ./app.js",
 		"test": "newman run ./test/api-tests.postman.json -e ./test/env-api-tests.postman.json",
